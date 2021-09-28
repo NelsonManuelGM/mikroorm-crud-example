@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   api:
-    container_name: micro-orm-example
+    container_name: micro-orm-example-api
     build: .
     ports: 
       - ${SERVER_PORT}:${SERVER_PORT}
