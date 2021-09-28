@@ -1,9 +1,9 @@
-import { Module } from '@nestjs/common';
-import { HouseService } from './house.service';
-import { HouseController } from './house.controller';
+import { Module } from "@nestjs/common";
+import { HouseService } from "./services/house.service";
+import { HouseController } from "./controller/house.controller";
 
 @Module({
   controllers: [HouseController],
-  providers: [HouseService]
+  providers: [HouseService],
 })
 export class HouseModule {}
