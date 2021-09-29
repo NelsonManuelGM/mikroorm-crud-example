@@ -11,6 +11,7 @@ import { HouseModule } from "./house/house.module";
     MikroOrmModule.forRootAsync({
       useFactory: () => ({
         type: "mongo",
+        host: process.env.DB_HOST,
         dbName: process.env.DB_NAME,
         user: process.env.DB_USER,
         password: process.env.DB_PASSWORD,
