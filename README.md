@@ -18,6 +18,10 @@ Mikro-orm-example is a CRUD example on MongoDB and MicroORM.
 ```
 
 ## Routers
+###
+A swagger interface
+
+* / api
 
 ### GET ALL / POST /  on house module 
 
