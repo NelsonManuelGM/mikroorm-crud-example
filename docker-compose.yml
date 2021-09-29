@@ -9,15 +9,21 @@ services:
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
-    command: npm run start:dev
+    command: yarn run start:dev
+    restart: always
     env_file:
       - .env
-    networks:
-      - webnet
+    # environment:
+    #   - MONGO_URI=mongodb://mongodb:27017
+    #   - DB_USER=root
+    #   - DB_PASSWORD=example
+    #   - DB_NAME=houses
+      # - MONGO_URI=mongodb://mongodb:27017/houses
     depends_on:
       - mongodb
 
   mongodb:
+    container_name: micro-orm-example-mongodb
     image: mongo
     restart: always
     ports:
@@ -27,7 +33,4 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
-    networks:
-      - webnet
-networks:
-  webnet:
+
