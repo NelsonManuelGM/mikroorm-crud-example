@@ -1,6 +1,7 @@
 # **Mikro-orm-example instructions**
 
-Mikro-orm-example is a CRUD example on MongoDB and MicroORM. 
+Mikro-orm-example is a CRUD example on MongoDB and MicroORM.
+
 ## Pull the project from GitHub
 
 ```bash
@@ -19,10 +20,14 @@ Mikro-orm-example is a CRUD example on MongoDB and MicroORM.
 
 ## Routers
 
-### GET ALL / POST /  on house module 
+### A simple swagger interface
+
+* / api
+
+### GET ALL / POST /  on house module
 
 * /house  
-    
+
 ### GET ONE / DELETE / CREATE
 
 * /api/_id
