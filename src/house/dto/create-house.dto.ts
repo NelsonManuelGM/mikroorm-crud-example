@@ -21,6 +21,7 @@ class Address {
   street: string;
 }
 export class CreateHouseDto {
+  @IsNotEmpty()
   @Type(() => Address)
   address: Address;
 

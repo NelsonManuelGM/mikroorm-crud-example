@@ -1,24 +1,32 @@
+import { ObjectId } from "@mikro-orm/mongodb";
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  HttpException,
+  HttpStatus,
+  Param,
+  Patch,
+  Post,
+  Res,
 } from "@nestjs/common";
-import { HouseService } from "../services/house.service";
+import { ObjectIdPipe } from "src/pipes/objectIdPipe";
 import { CreateHouseDto } from "../dto/create-house.dto";
 import { UpdateHouseDto } from "../dto/update-house.dto";
-import { from } from "rxjs";
+import { HouseService } from "../services/house.service";
 
 @Controller("house")
 export class HouseController {
   constructor(private readonly houseService: HouseService) {}
 
   @Post()
-  create(@Body() createHouseDto: CreateHouseDto) {
-    return this.houseService.create(createHouseDto);
+  async create(@Body() createHouseDto: CreateHouseDto) {
+    try {
+      return await this.houseService.create(createHouseDto);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
   }
 
   @Get()
@@ -27,17 +35,29 @@ export class HouseController {
   }
 
   @Get(":id")
-  findOne(@Param("id") id: string) {
-    return this.houseService.findOne(+id);
+  findOne(@Param("id", ObjectIdPipe) id: ObjectId) {
+    return this.houseService.findOne(id);
   }
 
   @Patch(":id")
-  update(@Param("id") id: string, @Body() updateHouseDto: UpdateHouseDto) {
-    return this.houseService.update(+id, updateHouseDto);
+  async update(
+    @Param("id", ObjectIdPipe) id: ObjectId,
+    @Body() updateHouseDto: UpdateHouseDto,
+    @Res() res
+  ) {
+    await this.houseService.findDocOr404({ _id: id });
+
+    await this.houseService.update(id, updateHouseDto);
+    return res.status(200).json({ message: "ok" });
   }
 
   @Delete(":id")
-  remove(@Param("id") id: string) {
-    return this.houseService.remove(+id);
+  async remove(@Param("id", ObjectIdPipe) id: ObjectId) {
+    const result = await this.houseService.remove(id);
+    if (result === 0) {
+      return { message: `There is no document with id: ${id}` };
+    } else {
+      return { message: "OK" };
+    }
   }
 }

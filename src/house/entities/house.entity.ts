@@ -5,6 +5,7 @@ import {
   PrimaryKey,
   Property,
   SerializedPrimaryKey,
+  Unique,
 } from "@mikro-orm/core";
 import { ObjectId } from "@mikro-orm/mongodb";
 
@@ -13,7 +14,8 @@ class Address {
   postalCode: number;
 
   @Property({ nullable: false })
-  apartment: number;
+  @Unique()
+  apartment!: number;
 
   @Property({ nullable: false })
   street: string;
@@ -41,7 +43,9 @@ export class House {
   @Property({ nullable: false })
   kitchen: number;
 
+  @Property({})
   patio: boolean;
 
+  @Property({})
   balcony: boolean;
 }
