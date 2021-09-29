@@ -25,7 +25,7 @@ describe("HouseService", () => {
 
   const mockEntityRepository = {
     count: jest.fn(() => {
-      throw new HttpException("Document doesn't exist", HttpStatus.NOT_FOUND);
+      throw new HttpException("Document doesn't exist!", HttpStatus.NOT_FOUND);
     }),
     flush: jest.fn(() => Promise.resolve({})),
     nativeInsert: jest.fn((dto) => Promise.resolve(mockedID.toString())),

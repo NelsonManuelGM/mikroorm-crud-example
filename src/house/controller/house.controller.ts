@@ -11,7 +11,7 @@ import {
   Post,
   Res,
 } from "@nestjs/common";
-import { ObjectIdPipe } from "src/pipes/objectIdPipe";
+import { ObjectIdPipe } from "../../pipes/objectIdPipe";
 import { CreateHouseDto } from "../dto/create-house.dto";
 import { UpdateHouseDto } from "../dto/update-house.dto";
 import { HouseService } from "../services/house.service";
@@ -22,11 +22,8 @@ export class HouseController {
 
   @Post()
   async create(@Body() createHouseDto: CreateHouseDto) {
-    try {
-      return await this.houseService.create(createHouseDto);
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }
+    const id = await this.houseService.create(createHouseDto);
+    return { id: id };
   }
 
   @Get()
@@ -47,8 +44,8 @@ export class HouseController {
   ) {
     await this.houseService.findDocOr404({ _id: id });
 
-    await this.houseService.update(id, updateHouseDto);
-    return res.status(200).json({ message: "ok" });
+    const result = await this.houseService.update(id, updateHouseDto);
+    return res.status(200).json({ message: "ok", updated: result });
   }
 
   @Delete(":id")
