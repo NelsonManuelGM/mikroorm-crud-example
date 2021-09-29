@@ -1,21 +1,21 @@
-import { ObjectId } from "@mikro-orm/mongodb";
-import { INestApplication, ValidationPipe } from "@nestjs/common";
-import { Test, TestingModule } from "@nestjs/testing";
-import supertest from "supertest";
-import { HouseController } from "../src/house/controller/house.controller";
-import { CreateHouseDto } from "../src/house/dto/create-house.dto";
-import { UpdateHouseDto } from "../src/house/dto/update-house.dto";
-import { HouseService } from "../src/house/services/house.service";
+import { ObjectId } from '@mikro-orm/mongodb';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
+import { Test, TestingModule } from '@nestjs/testing';
+import supertest from 'supertest';
+import { HouseController } from '../src/house/controller/house.controller';
+import { CreateHouseDto } from '../src/house/dto/create-house.dto';
+import { UpdateHouseDto } from '../src/house/dto/update-house.dto';
+import { HouseService } from '../src/house/services/house.service';
 
-describe("HouseController", () => {
+describe('HouseController', () => {
   let app: INestApplication;
-  const id: ObjectId = new ObjectId("4edd40c86762e0fb12000003");
+  const id: ObjectId = new ObjectId('4edd40c86762e0fb12000003');
 
   const data: CreateHouseDto = {
     address: {
       postalCode: 159456,
       apartment: 4545,
-      street: "asdasd adas ad asd a",
+      street: 'asdasd adas ad asd a',
     },
     bedroom: 2,
     bathroom: 2,
@@ -54,43 +54,43 @@ describe("HouseController", () => {
         transformOptions: {
           enableImplicitConversion: true,
         },
-      })
+      }),
     );
-    app.enableCors({ origin: "*" });
+    app.enableCors({ origin: '*' });
 
     await app.init();
   });
 
-  it("/POST house", async () => {
+  it('/POST house', async () => {
     return supertest(app.getHttpServer())
-      .post("/house")
+      .post('/house')
       .send(data)
       .expect(201)
       .expect({ id: id.toString() });
   });
 
-  it("/REMOVE house", async () => {
+  it('/REMOVE house', async () => {
     return supertest(app.getHttpServer())
       .delete(`/house/${id}`)
       .expect(200)
-      .expect({ message: "OK" });
+      .expect({ message: 'OK' });
   });
 
-  it("/GET ALL house ", async () => {
+  it('/GET ALL house ', async () => {
     return supertest(app.getHttpServer())
       .get(`/house`)
       .expect(200)
       .expect([data]);
   });
 
-  it("/GET ONE house ", async () => {
+  it('/GET ONE house ', async () => {
     return supertest(app.getHttpServer())
       .get(`/house/${id}`)
       .expect(200)
       .expect({ id: id.toString(), ...data });
   });
 
-  it("/UPDATE ONE house ", async () => {
+  it('/UPDATE ONE house ', async () => {
     const newData: UpdateHouseDto = {
       bedroom: 8,
       bathroom: 4,
@@ -100,7 +100,7 @@ describe("HouseController", () => {
       .send(newData)
       .expect(200)
       .expect({
-        message: "ok",
+        message: 'ok',
         updated: 1,
       });
   });
